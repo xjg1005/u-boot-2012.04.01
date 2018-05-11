@@ -367,11 +367,13 @@ static const struct amd_flash_info jedec_table[] = {
 		}
 	},
 #endif
+#ifdef CONFIG_SYS_FLASH_LEGACY_1024Kx16
+
 	/* JZ2440v2使用的MT29LV160DB */
 	{
-			.mfr_id		= (u16)MX_MANUFACT,  /* 厂家ID */
+			.mfr_id		= (u16)AMD_MANUFACT,  /* 厂家ID */
 			.dev_id		= 0X2249,            /* 设备ID */
-			.name		= "MXIC MT29LV160DB",
+			.name		= "AMD AM29LV160DB",
 			.uaddr		= {  /* NOR flash看到解锁地址 */
 				[1] = MTD_UADDR_0x0555_0x02AA /* x16 */
 			},
@@ -379,13 +381,13 @@ static const struct amd_flash_info jedec_table[] = {
 			.CmdSet		= P_ID_AMD_STD,
 			.NumEraseRegions= 4,
 			.regions	= {
-				ERASEINFO(16*1024, 1),
-				ERASEINFO(8*1024, 2),	
-				ERASEINFO(32*1024, 1),	
-				ERASEINFO(64*1024, 31),	
+				  ERASEINFO(0x04000, 1),
+                  ERASEINFO(0x02000, 2),
+                  ERASEINFO(0x08000, 1),
+                  ERASEINFO(0x10000, 31),	
 			}
-		},
-
+	},
+#endif
 };
 
 static inline void fill_info(flash_info_t *info, const struct amd_flash_info *jedec_entry, ulong base)
